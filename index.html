@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Password Strength Checker</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #2c3e50, #3498db);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 30px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    .guidelines {
+      background: #f0f4f8;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    input[type="password"],
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: -5px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    button {
+      padding: 12px 20px;
+      font-size: 16px;
+      background-color: #007acc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 15px;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #005fa3;
+    }
+
+    .result {
+      margin-top: 20px;
+      background: #fdfdfd;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 15px;
+    }
+
+    .warning {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+
+    .success {
+      color: #2ecc71;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Password Strength Checker</h2>
+
+    <div class="guidelines">
+      <p><strong>Password Guidelines:</strong></p>
+      <ul>
+        <li>Length must be between 6 to 12 characters.</li>
+        <li>At least one uppercase letter.</li>
+        <li>At least one lowercase letter.</li>
+        <li>At least one digit.</li>
+        <li>At least one special character.</li>
+      </ul>
+    </div>
+
+    <input type="password" id="password" placeholder="Enter your password"/>
+    <div class="toggle">
+      <input type="checkbox" id="togglePassword" onclick="toggleVisibility()" />
+      <label for="togglePassword">Show Password</label>
+    </div>
+
+    <button onclick="checkPassword()">Check Password</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function toggleVisibility() {
+      const pwd = document.getElementById("password");
+      pwd.type = pwd.type === "password" ? "text" : "password";
+    }
+
+    function checkPassword() {
+      const password = document.getElementById("password").value;
+      const result = document.getElementById("result");
+      result.innerHTML = "";
+
+      const errors = [];
+
+      if (password.length < 6 || password.length > 12) {
+        result.innerHTML = `<p class="warning">Invalid length of password. Must be 6-12 characters.</p>`;
+        return;
+      }
+
+      if (!/[a-z]/.test(password)) errors.push("MISSING LOWER CASE.");
+      if (!/[A-Z]/.test(password)) errors.push("MISSING UPPER CASE.");
+      if (!/[0-9]/.test(password)) errors.push("MISSING DIGIT.");
+      if (!/[!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?]/.test(password)) errors.push("MISSING SPECIAL CHARACTER.");
+
+      if (errors.length > 0) {
+        result.innerHTML = errors.map(err => `<p class="warning">${err}</p>`).join("");
+      } else {
+        let strength = "";
+        if (password.length <= 7) strength = "Weak";
+        else if (password.length < 10) strength = "Good";
+        else strength = "Excellent";
+
+        result.innerHTML = `<p class="success">All checks passed!</p><p><strong>Strength: ${strength}</strong></p>`;
+      }
+    }
+  </script>
+
+</body>
+</html>
