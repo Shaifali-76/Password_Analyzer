@@ -65,7 +65,7 @@ int main() {
     int length = strlen (password);
     
     if(length<6||length>12) {
-        printf(" Invalid length of password.");
+        printf(" Invalid length of entered password.");
         return -1;
     }
    
