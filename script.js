@@ -9,7 +9,7 @@ function toggleVisibility() {
       result.innerHTML = "";
 
       const errors = [];
-
+          
       if (password.length < 6 || password.length > 12) {
         result.innerHTML = `<p class="warning">Invalid length of password. Must be 6-12 characters.</p>`;
         return;
@@ -31,3 +31,4 @@ function toggleVisibility() {
         result.innerHTML = `<p class="success">All checks passed!</p><p><strong>Strength: ${strength}</strong></p>`;
       }
     }
+
